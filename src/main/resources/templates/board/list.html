@@ -30,12 +30,48 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">게시판</a>
                 </li>
-            </ul>            
+            </ul>
         </div> -->
     </nav>
 
     <div class="container">
         <h2>게시판</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">번호</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">작성자</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="board : ${boardList}">
+                    <td th:text="${board.id}"></td>
+                    <td th:text="${board.title}"></td>
+                    <td>홍길동</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${1 == boardList.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link" href="#" th:href="@{/board/list(page=${boardList.pageable.pageNumber - 1})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${i == boardList.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)} ">
+                    <a class="page-link" href="#" th:href="@{/board/list(page=${i - 1})}" th:text="${i}">1</a></li>
+                <li class="page-item" th:classappend="${boardList.getTotalPages == boardList.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link" href="#" th:href="@{/board/list(page=${boardList.pageable.pageNumber + 1})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="text-right">
+            <a type="button" class="btn btn-primary" th:href="@{/board/form}">쓰기</a>
+        </div>
     </div>
 
     <!-- Optional JavaScript -->
